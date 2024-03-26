@@ -12,4 +12,4 @@ docker buildx build --progress=plain \
     --build-arg GID=`id -g` \
     --build-arg USER_NAME=`id -nu` \
     --build-arg HOME=$HOME \
-    -t kicad8 -f kicad.DockerFile .
+    -t kicad8 -f kicad.DockerFile ..

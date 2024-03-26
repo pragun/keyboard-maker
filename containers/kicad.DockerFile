@@ -17,6 +17,12 @@ RUN ln -fs /usr/share/zoneinfo/America/New_York /etc/localtime && \
     apt-get install -y python3-pip python3-venv && \
     dpkg-reconfigure --frontend noninteractive tzdata
 
+RUN add-apt-repository ppa:rmescandon/yq && \
+    apt-get update && \
+    apt-get install yq -y --no-install-recommends && \
+    apt-get install jq -y --no-install-recommends && \
+    apt-get install git -y --no-install-recommends
+
 # Non-root user variables
 ARG DEV_USER="pragun"
 ARG DEV_USER_UID=1000
@@ -51,7 +57,14 @@ RUN groupadd --gid $DEV_USER_GID $DEV_USER \
 USER ${USER_NAME}
 
 RUN python3 -m venv /kicad-venv
-COPY kicad_scripting_requirements.txt .
-RUN . /kicad-venv/bin/activate && pip install -r kicad_scripting_requirements.txt
+COPY kicad/requirements.txt /kicad-venv/requirements.txt
+RUN . /kicad-venv/bin/activate && pip install -r /kicad-venv/requirements.txt
+
+RUN mkdir /kicad-libraries
+COPY kicad/libutils/* /kicad-libraries/
+RUN 	. /kicad-venv/bin/activate && \
+	cd /kicad-libraries && \
+	./get_git_kicad_lib.sh daprice-keyswitches.yaml /kicad-libraries/daprice-keyswitches && \
+	./get_git_kicad_lib.sh ncardini-rppico.yaml /kicad-libraries/ncardini-rppico 
 
 ENTRYPOINT ["bash", "-l", "-c"]
