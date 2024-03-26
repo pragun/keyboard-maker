@@ -1,0 +1,5 @@
+git-url: https://github.com/daprice/keyswitches.pretty.git
+fp-libs:
+  - name: daprice_keyswitches
+    subpath: ""
+

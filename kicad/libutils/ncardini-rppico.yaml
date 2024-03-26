@@ -1,0 +1,10 @@
+
+git-url: https://github.com/ncarandini/KiCad-RP-Pico.git
+fp-libs:
+  - name: RPi_Pico
+    subpath: "RP-Pico Libraries/MCU_RaspberryPi_and_Boards.pretty"
+sym-libs:
+  - name: RP_Pico
+    subpath: "RP-Pico Libraries/MCU_RaspberryPi_and_Boards.kicad_sym"
+
+
